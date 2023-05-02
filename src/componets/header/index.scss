@@ -1,0 +1,40 @@
+header {
+  box-sizing: border-box;
+  height: 80px;
+  border-bottom: 1px solid var(--border-gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:0 20px;
+  font-weight: bold;
+  nav {
+    display: flex;
+    gap: 20px;
+  }
+  a {
+    text-decoration: none;
+    color: #FFFFFFDE;
+    font-size: 20px;
+    transition: all 300ms ease-out;
+    cursor: pointer;
+    &.active {
+      color: var(--gold);
+    }
+    &:hover {
+      color: #FFF;
+      transform: scale(1.05);
+      &.active {
+        color: var(--gold);
+      }
+    }
+  }
+  .lang {
+    margin-left: auto;
+    padding-right: 40px;
+  }
+  .auth-btns {
+    span {
+      user-select: none;
+    }
+  }
+}
