@@ -7,6 +7,9 @@ interface FormInputs {
   password: string;
 }
 
+const eMailValidationRegEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/;
+
 const AuthForm = () => {
   const {
     register,
@@ -26,7 +29,10 @@ const AuthForm = () => {
           autoComplete="off"
           className={`${watch('email') ? 'active' : ''} ${errors.email ? 'error' : ''}`}
           type="text"
-          {...register('email', { required: { value: true, message: 'Email is required' } })}
+          {...register('email', {
+            required: { value: true, message: 'Email is required' },
+            pattern: { value: eMailValidationRegEx, message: 'Enter valid E-mail' },
+          })}
         />
         <span className="input-label">E-mail</span>
         {errors.email && <InputError message={errors.email.message} />}
@@ -35,12 +41,19 @@ const AuthForm = () => {
         <input
           className={`${watch('password') ? 'active' : ''} ${errors.password ? 'error' : ''}`}
           type="password"
-          {...register('password', { required: { value: true, message: 'Password is required' } })}
+          {...register('password', {
+            required: { value: true, message: 'Password is required' },
+            pattern: {
+              value: passwordRegEx,
+              message: 'Should contain at least one letter, one digit, one special character',
+            },
+            minLength: { value: 8, message: 'Should be at least 8 chars' },
+          })}
         />
         <span className="input-label">Password</span>
         {errors.password && <InputError message={errors.password.message} />}
       </div>
-      <input type="submit" value={'Submit'} />
+      <input type="submit" disabled value={'Submit'} />
     </form>
   );
 };
