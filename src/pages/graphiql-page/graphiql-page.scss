@@ -1,0 +1,135 @@
+// code editor
+.cm-selectionBackground,
+.ͼ3l .cm-content ::selection {
+  background-color: #6199ff2f !important;
+}
+.ͼ1 .cm-foldPlaceholder {
+  background-color: transparent;
+  border: none;
+  color: transparent;
+  position: relative;
+  margin: 0 4px 0 2px;
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '⋯';
+    color: #888;
+  }
+}
+.ͼ1.cm-focused .cm-matchingBracket {
+  background-color: transparent;
+  box-shadow: 0 0 0px 0.5px #c6c6c68c;
+}
+.ͼ25 .cm-activeLine {
+  background-color: transparent;
+  box-shadow: inset 0px 2px 0px 0px #343434, inset 0px -2px 0px 0px #343434,
+    inset 2px 0px 0px 0px #343434;
+}
+.ͼ25 .cm-activeLineGutter {
+  background-color: transparent;
+}
+
+.ͼ1 .cm-line {
+  padding: 0 2px 0 2px;
+}
+.ͼ1 .cm-foldGutter span {
+  padding: 0 10px;
+  cursor: pointer;
+  position: relative;
+  color: transparent;
+  &::after {
+    position: absolute;
+    content: '';
+    background-image: url('./../../assests/arrow.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
+    width: 12px;
+    height: 8px;
+    top: 4px;
+    margin-left: 7px;
+  }
+}
+.cm-gutter.cm-foldGutter {
+  & span[title='Fold line'] {
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  & span[title='Unfold line']::after {
+    rotate: -90deg;
+  }
+
+  &:hover span {
+    opacity: 1;
+  }
+}
+.ͼ25 .cm-gutters {
+  background-color: transparent;
+}
+
+// split pine
+.graphiql-page > .reflex-container.vertical > .reflex-splitter {
+  border-right: none;
+  border-left: none;
+  cursor: col-resize;
+  height: 100%;
+  width: 16px;
+  background-color: transparent;
+  position: relative;
+  &::after {
+    content: '';
+    height: 100px;
+    width: 4px;
+    position: absolute;
+    left: 6px;
+    top: calc(50% - 50px);
+    background-color: #c2c2c2;
+    border-radius: 2px;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0;
+  }
+  &:hover {
+    border-right: none;
+    border-left: none;
+    &::after {
+      opacity: 1;
+    }
+  }
+  &:active {
+    border-right: none;
+    border-left: none;
+  }
+}
+.reflex-splitter.reflex-thin.active,
+.reflex-container.vertical > .reflex-splitter.reflex-thin:hover {
+  border-right: none;
+  border-left: none;
+}
+
+// graphiql
+.graphiql {
+  &-page {
+    display: flex;
+
+    width: 100%;
+  }
+  &-doc {
+    height: 100%;
+  }
+  &-code {
+    height: 100%;
+    background-color: #2d2d2d;
+    border-radius: 10px;
+    min-width: 50%;
+    &-header {
+      padding: 16px 16px 8px;
+    }
+    &-editor {
+      padding: 0px 16px 16px 16px;
+    }
+  }
+  &-results {
+    height: 100%;
+  }
+}

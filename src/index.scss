@@ -1,23 +1,21 @@
 :root {
   --border-gray: #494c50;
   --gold: #fec524;
-  
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #1f1f1f;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
 }
-
 
 body {
   margin: 0;
@@ -32,8 +30,9 @@ body {
   justify-content: space-between;
   main {
     box-sizing: border-box;
-    min-height: calc(100vh - 160px);
-    padding: 20px;
+    min-height: calc(100vh - 4rem);
+    padding: 20px 10px;
+    display: flex;
   }
 }
 
@@ -45,4 +44,3 @@ body {
   width: 100%;
   height: 100vh;
 }
-

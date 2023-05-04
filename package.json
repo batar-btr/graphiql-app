@@ -11,9 +11,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.1.7",
+    "@rexxars/react-split-pane": "^0.1.93",
+    "@uiw/codemirror-theme-vscode": "^4.19.16",
+    "@uiw/react-codemirror": "^4.19.16",
+    "cm6-graphql": "^0.0.5",
     "react": "^18.2.0",
+    "react-collapse-pane": "^3.0.1",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.0"
+    "react-reflex": "^4.0.12",
+    "react-router-dom": "^6.11.0",
+    "react-split-pane-v2": "^1.0.3",
+    "styled-components": "^5.3.10"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
