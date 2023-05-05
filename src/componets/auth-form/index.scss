@@ -68,4 +68,16 @@
       background-color: var(--gold);
     }
   }
+  .submit-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    height: 60px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    background-color: tomato;
+    padding: 10px;
+    color: #242424;
+  }
 }

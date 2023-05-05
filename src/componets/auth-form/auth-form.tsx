@@ -7,6 +7,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from '@firebase/auth';
+import { useState } from 'react';
+import { FirebaseError } from '@firebase/util';
 
 interface FormInputs {
   email: string;
@@ -23,6 +25,8 @@ const eMailValidationRegEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/;
 
 const AuthForm = ({ mode }: AuthFormProps) => {
+  const [error, setError] = useState<string>('');
+
   const auth = getAuth();
   const navigate = useNavigate();
   const {
@@ -33,6 +37,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
   } = useForm<FormInputs>();
 
   const onSubmit: SubmitHandler<FormInputs> = async ({ email, password }) => {
+    setError('');
     try {
       if (mode === 'sign-in') {
         await signInWithEmailAndPassword(auth, email, password);
@@ -41,7 +46,9 @@ const AuthForm = ({ mode }: AuthFormProps) => {
       }
       navigate('/graphiql');
     } catch (error: unknown) {
-      console.log('TRY CATCH ERROR: ', error);
+      if (error instanceof FirebaseError) {
+        setError(error.code);
+      }
     }
   };
 
@@ -77,6 +84,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
         {errors.password && <InputError message={errors.password.message} />}
       </div>
       <input type="submit" value={'Submit'} />
+      {error && <div className="submit-error">{error}</div>}
     </form>
   );
 };
