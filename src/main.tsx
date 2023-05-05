@@ -1,12 +1,15 @@
+import './index.scss';
+import './firebase';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './routes/root';
-import './index.scss';
 import ErrorPage from './pages/error-page';
 import AuthPage from './pages/auth-page/auth-page';
 import GraphiqlPage from './pages/graphiql-page/graphiql-page';
 import WelcomePage from './pages/welcome-page/welcome-page';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +36,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
