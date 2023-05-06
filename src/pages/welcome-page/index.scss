@@ -1,0 +1,13 @@
+.welcome-page {
+  position: relative;
+  .top-bar {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    top: 0;
+    width: 100%;
+    a, span {
+      color: var(--border-gray);
+    }
+  }
+}
