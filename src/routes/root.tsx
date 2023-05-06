@@ -1,5 +1,5 @@
-import Header from '../componets/header/header';
-import Footer from '../componets/footer/footer';
+import Header from '../components/header/header';
+import Footer from '../components/footer/footer';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
 import { useEffect } from 'react';

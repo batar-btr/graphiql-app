@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import AuthForm from '../../componets/auth-form/auth-form';
+import AuthForm from '../../components/auth-form/auth-form';
 import useAuth from '../../hooks/use-auth';
 import { useNavigate } from 'react-router-dom';
 
