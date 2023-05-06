@@ -1,5 +1,6 @@
 // code editor
-.cm-editor {
+.cm-editor,
+.cm-content {
   height: 100%;
 }
 .cm-selectionBackground,
@@ -24,11 +25,9 @@
   background-color: transparent;
   box-shadow: 0 0 0px 0.5px #c6c6c68c;
 }
-.ͼ25 .cm-activeLine,
-.ͼ39 .cm-activeLine,
-.ͼ25 .cm-activeLineGutter,
-.ͼ39 .cm-activeLineGutter {
-  background-color: transparent;
+.cm-activeLine,
+.cm-activeLineGutter {
+  background-color: transparent !important;
 }
 
 .ͼ1 .cm-line {
@@ -72,6 +71,10 @@
   outline: none;
 }
 
+.reflex-container > .horizontal.reflex-element {
+  overflow: hidden;
+}
+
 .cm-scroller::-webkit-scrollbar {
   width: 6px;
 }
@@ -81,6 +84,7 @@
 }
 
 .reflex-element::-webkit-scrollbar {
+  margin-top: 52px;
   width: 6px;
 }
 
@@ -161,7 +165,7 @@
   border-top: none;
 }
 
-// graphiql
+// graphiql page
 .graphiql {
   &-page {
     display: flex;
@@ -170,6 +174,23 @@
   }
   &-doc {
     height: 100%;
+    padding: 0rem 1rem 1rem 1rem;
+    box-sizing: border-box;
+    &-header {
+      &-title {
+        font-weight: 600;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-gray);
+      }
+    }
+    &-path {
+      &-elem {
+        margin: 16px 0;
+      }
+    }
   }
   &-code {
     display: flex;
@@ -227,11 +248,15 @@
   }
   &-variables-editor {
     padding: 0px 0px 0px 20px;
+    height: calc(100% - 52px - 0.7rem);
     &-header {
-      padding: 16px 16px 12px 16px;
+      padding: 16px 16px 8px 16px;
     }
   }
-  &-results {
+  &-response {
     height: 100%;
+    & .cm-lineNumbers {
+      display: none !important;
+    }
   }
 }
