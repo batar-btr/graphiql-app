@@ -9,7 +9,7 @@ import AuthPage from './pages/auth-page/auth-page';
 import GraphiqlPage from './pages/graphiql-page/graphiql-page';
 import WelcomePage from './pages/welcome-page/welcome-page';
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { store } from './store/store';
 
 const router = createBrowserRouter([
   {

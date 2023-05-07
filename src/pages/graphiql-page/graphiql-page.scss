@@ -169,7 +169,7 @@
 .graphiql {
   &-page {
     display: flex;
-
+    height: calc(100vh - 104px);
     width: 100%;
   }
   &-doc {

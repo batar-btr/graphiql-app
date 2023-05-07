@@ -1,9 +1,13 @@
-import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
 import { graphql } from 'cm6-graphql';
+import { useEffect } from 'react';
+import { useAppSelector } from '../../hooks/redux-hooks';
 
 export const GraphiqlResponseEditor = () => {
+  const result = useAppSelector((state) => state.response.value);
+
+  useEffect(() => {}, [result]);
   return (
     <CodeMirror
       className="graphiql-response-editor"
@@ -15,15 +19,8 @@ export const GraphiqlResponseEditor = () => {
         },
       })}
       readOnly={true}
-      value={`{
-  first {
-    example
-  }
-}`}
+      value={result}
       extensions={[graphql()]}
-      onChange={(value, viewUpdate) => {
-        console.log('value:', value);
-      }}
     />
   );
 };

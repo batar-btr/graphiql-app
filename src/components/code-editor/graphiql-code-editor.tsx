@@ -1,18 +1,20 @@
-import React from 'react';
+import { useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
 import { graphql } from 'cm6-graphql';
 import { TestSchema } from '../../pages/graphiql-page/testSchema';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { setQuery } from '../../store/slices/querySlice';
 
 export const GraphiqlCodeEditor = () => {
+  const query = useAppSelector((state) => state.query.value);
+  const dispatch = useAppDispatch();
+  console.log('render');
+
   return (
     <CodeMirror
       className="graphiql-code-editor"
-      value={`query Query {
-  first {
-    example
-  }
-}`}
+      value={query}
       theme={vscodeDarkInit({
         settings: {
           fontFamily: 'monospace',
@@ -32,6 +34,7 @@ export const GraphiqlCodeEditor = () => {
       ]}
       onChange={(value, viewUpdate) => {
         console.log('value:', value);
+        dispatch(setQuery({ value }));
       }}
     />
   );

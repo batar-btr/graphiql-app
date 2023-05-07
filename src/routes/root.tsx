@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../hooks/redux-hooks';
-import { setUser } from '../store/userSlice';
+import { setUser } from '../store/slices/userSlice';
 
 const Root = () => {
   const auth = getAuth();

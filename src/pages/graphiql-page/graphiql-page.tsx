@@ -4,6 +4,10 @@ import 'react-reflex/styles.css';
 import { GraphiqlCodeEditor } from '../../components/code-editor/graphiql-code-editor';
 import { GraphiqlVariablesEditor } from '../../components/code-editor/graphiql-variables-editor';
 import { GraphiqlResponseEditor } from '../../components/code-editor/graphiql-response-editor';
+import { requestSubmit } from '../../service/request';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { setResponse } from '../../store/slices/responseSlice';
 
 interface ILayoutState {
   appPaneV1: {
@@ -51,6 +55,10 @@ const getLayoutState = (): ILayoutState => {
 
 const GraphiqlPage = () => {
   const layoutState = getLayoutState();
+  const initialState = '';
+  const dispatch = useAppDispatch();
+  const query = useAppSelector((state) => state.query.value);
+  const variable = useAppSelector((state) => state.variable.value);
 
   const onResizePane = (event: HandlerProps) => {
     const { name, flex } = event.component.props;
@@ -59,6 +67,11 @@ const GraphiqlPage = () => {
       flex!;
 
     window.localStorage.setItem('re-flex', JSON.stringify(layoutState));
+  };
+
+  const handleSubmit = () => {
+    const obj = variable ? JSON.parse(variable) : {};
+    requestSubmit(query, obj).then((value) => dispatch(setResponse({ value })));
   };
 
   return (
@@ -94,7 +107,7 @@ const GraphiqlPage = () => {
           <div className="graphiql-code">
             <div className="graphiql-code-header">
               <span className="graphiql-code-header-title">Operation</span>
-              <button className="graphiql-code-header-btn">
+              <button className="graphiql-code-header-btn" onClick={() => handleSubmit()}>
                 <span className="graphiql-code-header-btn-img">
                   <svg viewBox="0 0 40 40">
                     <path

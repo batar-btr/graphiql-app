@@ -1,18 +1,26 @@
 import { buildASTSchema } from 'graphql';
-import gql from 'gql-tag';
+import gql from 'graphql-tag';
 
 const typeDefs = gql`
   type Query {
-    characters(page: Int, filter: FilterCharacter): CharacterPage!
+    characters(page: Int, filter: FilterCharacter): CharacterResponse!
     character(id: ID!): Character
-    episodes(page: Int, filter: FilterEpisode): EpisodePage!
-    episode(id: ID!): Episode
-    locations(page: Int, filter: FilterLocation): LocationPage!
+    locations(page: Int, filter: FilterLocation): LocationResponse!
     location(id: ID!): Location
+    episodes(page: Int, filter: FilterEpisode): EpisodeResponse!
+    episode(id: ID!): Episode
   }
 
-  type CharacterPage {
-    info: PageInfo!
+  input FilterCharacter {
+    name: String
+    status: String
+    species: String
+    type: String
+    gender: String
+  }
+
+  type CharacterResponse {
+    info: Info!
     results: [Character!]!
   }
 
@@ -30,22 +38,21 @@ const typeDefs = gql`
     created: String!
   }
 
-  type EpisodePage {
-    info: PageInfo!
-    results: [Episode!]!
+  type Info {
+    count: Int!
+    pages: Int!
+    next: Int
+    prev: Int
   }
 
-  type Episode {
-    id: ID!
-    name: String!
-    air_date: String!
-    episode: String!
-    characters(page: Int): CharacterPage!
-    created: String!
+  input FilterLocation {
+    name: String
+    type: String
+    dimension: String
   }
 
-  type LocationPage {
-    info: PageInfo!
+  type LocationResponse {
+    info: Info!
     results: [Location!]!
   }
 
@@ -54,23 +61,8 @@ const typeDefs = gql`
     name: String!
     type: String!
     dimension: String!
-    residents(page: Int): CharacterPage!
+    residents: [Character!]!
     created: String!
-  }
-
-  type PageInfo {
-    count: Int!
-    pages: Int!
-    next: String
-    prev: String
-  }
-
-  input FilterCharacter {
-    name: String
-    status: String
-    species: String
-    type: String
-    gender: String
   }
 
   input FilterEpisode {
@@ -78,10 +70,18 @@ const typeDefs = gql`
     episode: String
   }
 
-  input FilterLocation {
-    name: String
-    type: String
-    dimension: String
+  type EpisodeResponse {
+    info: Info!
+    results: [Episode!]!
+  }
+
+  type Episode {
+    id: ID!
+    name: String!
+    air_date: String!
+    episode: String!
+    characters: [Character!]!
+    created: String!
   }
 `;
 
