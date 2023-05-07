@@ -14,7 +14,6 @@ const variableSlice = createSlice({
   reducers: {
     setVariable(state, { payload: { value } }: PayloadAction<InitialState>) {
       state.value = value;
-      console.log(value);
     },
   },
 });

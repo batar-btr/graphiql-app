@@ -9,10 +9,12 @@ import { setVariable } from '../../store/slices/variableSlice';
 
 export const GraphiqlVariablesEditor = () => {
   const dispatch = useAppDispatch();
+  const variable = useAppSelector((state) => state.variable.value);
 
   return (
     <CodeMirror
       className="graphiql-variables-editor"
+      value={variable}
       theme={vscodeDarkInit({
         settings: {
           fontFamily: 'monospace',

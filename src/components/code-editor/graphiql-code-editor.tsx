@@ -9,7 +9,6 @@ import { setQuery } from '../../store/slices/querySlice';
 export const GraphiqlCodeEditor = () => {
   const query = useAppSelector((state) => state.query.value);
   const dispatch = useAppDispatch();
-  console.log('render');
 
   return (
     <CodeMirror
@@ -33,7 +32,6 @@ export const GraphiqlCodeEditor = () => {
         }),
       ]}
       onChange={(value, viewUpdate) => {
-        console.log('value:', value);
         dispatch(setQuery({ value }));
       }}
     />
