@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { setResponse } from '../../store/slices/responseSlice';
 
+import { DocumentationExplorer } from '../../explorer/testExplorer';
+
 interface ILayoutState {
   appPaneV1: {
     flex: number;
@@ -84,7 +86,7 @@ const GraphiqlPage = () => {
           onResize={onResizePane}
         >
           <div className="graphiql-doc">
-            <div className="graphiql-doc-header">
+            {/* <div className="graphiql-doc-header">
               <h3 className="graphiql-doc-header-title">Documentation</h3>
             </div>
             <div className="graphiql-doc-path">
@@ -92,7 +94,8 @@ const GraphiqlPage = () => {
             </div>
             <div className="graphiql-doc-header">
               <h3 className="graphiql-doc-header-title">Root Types</h3>
-            </div>
+            </div> */}
+            <DocumentationExplorer />
           </div>
         </ReflexElement>
 

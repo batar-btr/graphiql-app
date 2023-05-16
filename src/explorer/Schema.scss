@@ -1,0 +1,44 @@
+.docs {
+  &-root {
+    margin-top: 20px;
+    &-header {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      &-title {
+        font-weight: 500;
+        font-size: 1.8125rem;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    &-field {
+      text-decoration: none;
+      color: rgb(64, 129, 250);
+    }
+    &-scalar {
+      text-decoration: none;
+      color: crimson;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    &-content {
+      margin-left: 8px;
+      margin-top: 16px;
+    }
+    &-types {
+      align-items: center;
+      display: flex;
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1;
+      svg {
+        height: 16px;
+        margin-right: 8px;
+        width: 16px;
+      }
+    }
+  }
+}
