@@ -1,7 +1,7 @@
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
 import { graphql } from 'cm6-graphql';
-import { TestSchema } from '../../pages/graphiql-page/testSchema';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 
 import { setVariable } from '../../store/slices/variableSlice';
@@ -22,7 +22,7 @@ export const GraphiqlVariablesEditor = () => {
         },
       })}
       extensions={[graphql()]}
-      onChange={(value, viewUpdate) => {
+      onChange={(value) => {
         dispatch(setVariable({ value }));
       }}
     />

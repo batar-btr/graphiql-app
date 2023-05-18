@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  buildClientSchema,
-  getIntrospectionQuery,
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLInputObjectType,
@@ -9,51 +8,33 @@ import {
   GraphQLList,
   GraphQLNonNull,
 } from 'graphql';
+
 import { DocsExplorerFieldSvg } from './docsExplorerSvgFields';
 import { DocsExplorerRootSvg } from './docsExplorerRootSvg';
 import { DocsExplorerTypeSvg } from './doscExplorerTypeSvg';
 import { DocsExplorerArgumentsSvg } from './docsExplorerArgumentsSvg';
 
-import { Link } from 'react-router-dom';
-import { QueryMain, QueryField, Fields } from './typeRoot';
-import { QueryArray, Query } from './types';
-
+import { GraphQLNestedList, GraphQLObject, DocumentationRickAndMorty } from '../service/types';
+import { fetchSchema } from '../service/fetchSchema';
 import './Schema.scss';
 
 export const DocumentationExplorer = () => {
   const [schema, setSchema] = useState<GraphQLSchema | null>(null);
-  const [type, setType] = useState('Docs');
-  const [selectedType, setSelectedType] = useState<string>('Query');
-  const [selectedTitle, setSelectedTitle] = useState<string>('Docs');
-  const [backStack, setBackStack] = useState<string[] | []>([]);
-
-  const endpoint = 'https://rickandmortyapi.com/graphql';
-
-  const fetchSchema = async () => {
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: getIntrospectionQuery() }),
-      });
-      const result = await response.json();
-
-      if (result.errors) {
-        throw new Error(result.errors[0].message);
-      }
-      const schema = buildClientSchema(result.data);
-
-      setSchema(schema);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const [type, setType] = useState<string>('Docs');
+  // const [selectedType, setSelectedType] = useState<string>('Query');
+  // const [selectedTitle, setSelectedTitle] = useState<string>('Docs');
+  const [backStack, setBackStack] = useState<DocumentationRickAndMorty[] | []>([]);
+  const [documentation, setDocumentation] = useState({
+    type: 'Docs',
+    selectedType: 'Query',
+    title: 'Docs',
+  });
 
   const DefaultDocs = () => {
     return (
       <div className="docs">
         <div className="docs-root-header">
-          <div className="docs-root-header-title">{selectedTitle}</div>
+          <div className="docs-root-header-title">{documentation.title}</div>
         </div>
         <div className="docs-root-description">
           A GraphQL schema provides a root type for each kind of operation.
@@ -69,12 +50,14 @@ export const DocumentationExplorer = () => {
               className="docs-root-scalar"
               href="#"
               onClick={() => {
-                setSelectedTitle('Query');
-                setSelectedType('Query');
-                setType('Query');
+                setDocumentation({ type: 'Query', selectedType: 'Query', title: 'Query' });
+                setBackStack((prevStack) => [
+                  ...prevStack,
+                  { type: 'Query', selectedType: 'Query', title: 'Query' },
+                ]);
               }}
             >
-              {selectedType}
+              {documentation.selectedType}
             </a>
           </div>
         </div>
@@ -83,27 +66,26 @@ export const DocumentationExplorer = () => {
   };
 
   const Fields = () => {
-    const typeByName = schema && schema.getType(type);
+    const typeByName = schema && schema.getType(documentation.type);
 
     if (typeByName instanceof GraphQLObjectType || typeByName instanceof GraphQLInputObjectType) {
       return objectType(typeByName);
     } else if (typeByName instanceof GraphQLScalarType) {
-      return scalarObjectType();
+      return <ScalarObjectType />;
     } else {
-      return currentField();
+      return <CurrentField selected={documentation.selectedType} />;
     }
   };
 
   const objectType = (value: GraphQLObjectType | GraphQLInputObjectType) => {
     const fields = value.getFields();
-    setSelectedType(type);
 
     const array = Object.values(fields);
 
     return (
       <>
         <div className="docs-root-header">
-          <div className="docs-root-header-title">{selectedTitle}</div>
+          <div className="docs-root-header-title">{documentation.title}</div>
         </div>
         <div className="docs-root">
           <div className="docs-root-types">
@@ -118,8 +100,16 @@ export const DocumentationExplorer = () => {
                 <Link
                   to="/graphiql"
                   onClick={() => {
-                    setSelectedTitle(item.name);
-                    setType(item.name);
+                    setDocumentation((prev) => ({ ...prev, type: item.name, title: item.name }));
+
+                    setBackStack((prevStack) => [
+                      ...prevStack,
+                      {
+                        type: item.name,
+                        selectedType: documentation.selectedType,
+                        title: item.name,
+                      },
+                    ]);
                   }}
                 >
                   {item.name}
@@ -132,6 +122,7 @@ export const DocumentationExplorer = () => {
                   </>
                 )}
                 : {graphQLListType(item)}
+                {item.description && <div>{item.description}</div>}
               </li>
             );
           })}
@@ -140,7 +131,7 @@ export const DocumentationExplorer = () => {
     );
   };
 
-  const graphQLListType = (item) => {
+  const graphQLListType = (item: GraphQLNestedList) => {
     if (item.type instanceof GraphQLList) {
       return (
         <>
@@ -148,9 +139,20 @@ export const DocumentationExplorer = () => {
           <Link
             to="/graphiql"
             onClick={() => {
-              setSelectedTitle(item.type.ofType.name);
-              setSelectedType(item.type.ofType.name);
-              setType(item.type.ofType.name);
+              setDocumentation({
+                type: item.type.ofType.name,
+                selectedType: item.type.ofType.name,
+                title: item.type.ofType.name,
+              });
+
+              setBackStack((prevStack) => [
+                ...prevStack,
+                {
+                  type: item.type.ofType.name,
+                  selectedType: item.type.ofType.name,
+                  title: item.type.ofType.name,
+                },
+              ]);
             }}
           >
             {item.type.ofType.name}
@@ -165,9 +167,20 @@ export const DocumentationExplorer = () => {
           <Link
             to="/graphiql"
             onClick={() => {
-              setSelectedTitle(item.type.ofType.ofType.name);
-              setSelectedType(item.type.ofType.ofType.name);
-              setType(item.type.ofType.ofType.name);
+              setDocumentation({
+                type: item.type.ofType.ofType.name,
+                selectedType: item.type.ofType.ofType.name,
+                title: item.type.ofType.ofType.name,
+              });
+
+              setBackStack((prevStack) => [
+                ...prevStack,
+                {
+                  type: item.type.ofType.ofType.name,
+                  selectedType: item.type.ofType.ofType.name,
+                  title: item.type.ofType.ofType.name,
+                },
+              ]);
             }}
           >
             {item.type.ofType.ofType.name}
@@ -180,9 +193,20 @@ export const DocumentationExplorer = () => {
         <Link
           to="/graphiql"
           onClick={() => {
-            setSelectedTitle(item.type.name);
-            setType(item.type.name);
-            setSelectedType(item.type.name);
+            setDocumentation({
+              type: item.type.name,
+              selectedType: item.type.name,
+              title: item.type.name,
+            });
+
+            setBackStack((prevStack) => [
+              ...prevStack,
+              {
+                type: item.type.name,
+                selectedType: item.type.name,
+                title: item.type.name,
+              },
+            ]);
           }}
         >
           {item.type.name}
@@ -191,88 +215,59 @@ export const DocumentationExplorer = () => {
     }
   };
 
-  const currentField = () => {
-    const field = schema && schema.getType(selectedType);
+  const CurrentField = ({ selected }: { selected: string }) => {
+    const field = schema && (schema.getType(selected) as GraphQLObject);
+    const fields = field!.getFields();
+    const array: GraphQLNestedList[] = Object.values(fields);
+    const current = array.find((item) => item.name === documentation.type);
 
-    if (field instanceof GraphQLObjectType || field instanceof GraphQLInputObjectType) {
-      const fields = field.getFields();
-      const array = Object.values(fields);
-      const current = array.filter((item) => item.name === type)[0];
-
-      return (
-        <>
-          <div className="docs-root-header">
-            <div className="docs-root-header-title">{selectedTitle}</div>
-          </div>
-          {isTypeCurrentField(current)}
-          {current.args && current.args.length > 0 && (
-            <div>
-              <div className="docs-root">
-                <div className="docs-root-types">
-                  <DocsExplorerArgumentsSvg />
-                  Arguments:
-                </div>
+    return (
+      <>
+        <div className="docs-root-header">
+          <div className="docs-root-header-title">{documentation.title}</div>
+        </div>
+        {current && isTypeCurrentField(current)}
+        {current && current.args && current.args.length > 0 && (
+          <div>
+            <div className="docs-root">
+              <div className="docs-root-types">
+                <DocsExplorerArgumentsSvg />
+                Arguments:
               </div>
-              {fieldArguments(current)}
             </div>
-          )}
-        </>
-      );
-    }
+            {fieldArguments(current)}
+          </div>
+        )}
+      </>
+    );
   };
 
-  const fieldArguments = (current) => {
+  const fieldArguments = (current: GraphQLNestedList) => {
     return (
       <>
         {current.args.map((arg) => {
-          if (arg.type.ofType instanceof GraphQLList) {
+          if (arg.type instanceof GraphQLInputObjectType) {
             return (
               <div key={arg.name}>
-                {arg.name}: {'['}
+                {arg.name}:
                 {
                   <Link
                     to="/graphiql"
                     onClick={() => {
-                      setSelectedTitle(arg.type.ofType.ofType.ofType.name);
-                      setType(arg.type.ofType.ofType.ofType.name);
-                    }}
-                  >
-                    <span>{arg.type.ofType.ofType.ofType.name}</span>
-                  </Link>
-                }
-                {'!'}
-                {']'}
-                {'!'}
-              </div>
-            );
-          } else if (arg.type.ofType instanceof GraphQLScalarType) {
-            return (
-              <div key={arg.name}>
-                {arg.name}:{' '}
-                {
-                  <Link
-                    to="/graphiql"
-                    onClick={() => {
-                      setSelectedTitle(arg.type.ofType.name);
-                      setType(arg.type.ofType.name);
-                    }}
-                  >
-                    <span>{arg.type.ofType.name}</span>
-                  </Link>
-                }
-                {'!'}
-              </div>
-            );
-          } else {
-            return (
-              <div key={arg.name}>
-                {arg.name}:{' '}
-                {
-                  <Link
-                    to="/graphiql"
-                    onClick={() => {
-                      setSelectedTitle(arg.type.name);
-                      setType(arg.type.name);
+                      setDocumentation({
+                        type: arg.type.name,
+                        selectedType: arg.type.name,
+                        title: arg.type.name,
+                      });
+
+                      setBackStack((prevStack) => [
+                        ...prevStack,
+                        {
+                          type: arg.type.name,
+                          selectedType: arg.type.name,
+                          title: arg.type.name,
+                        },
+                      ]);
                     }}
                   >
                     <span>{arg.type.name}</span>
@@ -280,13 +275,105 @@ export const DocumentationExplorer = () => {
                 }
               </div>
             );
+          } else {
+            if (arg.type.ofType instanceof GraphQLList) {
+              return (
+                <div key={arg.name}>
+                  {arg.name}: {'['}
+                  {
+                    <Link
+                      to="/graphiql"
+                      onClick={() => {
+                        setDocumentation((prev) => ({
+                          ...prev,
+                          type: arg.type.ofType.ofType.ofType.name,
+                          title: arg.type.ofType.ofType.ofType.name,
+                        }));
+
+                        setBackStack((prevStack) => [
+                          ...prevStack,
+                          {
+                            type: arg.type.ofType.ofType.ofType.name,
+                            selectedType: documentation.selectedType,
+                            title: arg.type.ofType.ofType.ofType.name,
+                          },
+                        ]);
+                      }}
+                    >
+                      <span>{arg.type.ofType.ofType.ofType.name}</span>
+                    </Link>
+                  }
+                  {'!'}
+                  {']'}
+                  {'!'}
+                </div>
+              );
+            } else if (arg.type.ofType instanceof GraphQLScalarType) {
+              return (
+                <div key={arg.name}>
+                  {arg.name}:{' '}
+                  {
+                    <Link
+                      to="/graphiql"
+                      onClick={() => {
+                        setDocumentation((prev) => ({
+                          ...prev,
+                          type: arg.type.ofType.name,
+                          title: arg.type.ofType.name,
+                        }));
+
+                        setBackStack((prevStack) => [
+                          ...prevStack,
+                          {
+                            type: arg.type.ofType.name,
+                            selectedType: documentation.selectedType,
+                            title: arg.type.ofType.name,
+                          },
+                        ]);
+                      }}
+                    >
+                      <span>{arg.type.ofType.name}</span>
+                    </Link>
+                  }
+                  {'!'}
+                </div>
+              );
+            } else {
+              return (
+                <div key={arg.name}>
+                  {arg.name}:{' '}
+                  {
+                    <Link
+                      to="/graphiql"
+                      onClick={() => {
+                        setDocumentation((prev) => ({
+                          ...prev,
+                          type: arg.type.name,
+                          title: arg.type.name,
+                        }));
+                        setBackStack((prevStack) => [
+                          ...prevStack,
+                          {
+                            type: arg.type.name,
+                            selectedType: documentation.selectedType,
+                            title: arg.type.name,
+                          },
+                        ]);
+                      }}
+                    >
+                      <span>{arg.type.name}</span>
+                    </Link>
+                  }
+                </div>
+              );
+            }
           }
         })}
       </>
     );
   };
 
-  const isTypeCurrentField = (current) => {
+  const isTypeCurrentField = (current: GraphQLNestedList) => {
     if (current.type instanceof GraphQLList) {
       return (
         <>
@@ -301,14 +388,59 @@ export const DocumentationExplorer = () => {
           <Link
             to="/graphiql"
             onClick={() => {
-              setSelectedTitle(current.type.ofType.name);
-              setType(current.type.ofType.name);
+              setDocumentation({
+                selectedType: current.type.ofType.name,
+                type: current.type.ofType.name,
+                title: current.type.ofType.name,
+              });
+              setBackStack((prevStack) => [
+                ...prevStack,
+                {
+                  selectedType: current.type.ofType.name,
+                  type: current.type.ofType.name,
+                  title: current.type.ofType.name,
+                },
+              ]);
             }}
           >
             {current.type.ofType.name}
           </Link>
           {']'}
         </>
+      );
+    } else if (current.type instanceof GraphQLNonNull) {
+      return (
+        <div>
+          {current.description}
+          <div className="docs-root">
+            <div className="docs-root-types">
+              <DocsExplorerTypeSvg />
+              Type
+            </div>
+          </div>
+          {'['}
+          <Link
+            to="/graphiql"
+            onClick={() => {
+              setDocumentation({
+                type: current.type.ofType.ofType.name,
+                selectedType: current.type.ofType.ofType.name,
+                title: current.type.ofType.ofType.name,
+              });
+              setBackStack((prevStack) => [
+                ...prevStack,
+                {
+                  type: current.type.ofType.ofType.name,
+                  selectedType: current.type.ofType.ofType.name,
+                  title: current.type.ofType.ofType.name,
+                },
+              ]);
+            }}
+          >
+            {current.type.ofType.ofType.name}
+          </Link>
+          {']!'}
+        </div>
       );
     } else if (current.type instanceof GraphQLScalarType) {
       return (
@@ -323,8 +455,20 @@ export const DocumentationExplorer = () => {
           <Link
             to="/graphiql"
             onClick={() => {
-              setSelectedTitle(current.type.name);
-              setType(current.type.name);
+              setDocumentation((prev) => ({
+                ...prev,
+                type: current.type.name,
+                title: current.type.name,
+              }));
+
+              setBackStack((prevStack) => [
+                ...prevStack,
+                {
+                  type: current.type.name,
+                  selectedType: documentation.selectedType,
+                  title: current.type.name,
+                },
+              ]);
             }}
           >
             {current.type.name}
@@ -344,8 +488,19 @@ export const DocumentationExplorer = () => {
           <Link
             to="/graphiql"
             onClick={() => {
-              setSelectedTitle(current.type.name);
-              setType(current.type.name);
+              setDocumentation({
+                type: current.type.name,
+                selectedType: current.type.name,
+                title: current.type.name,
+              });
+              setBackStack((prevStack) => [
+                ...prevStack,
+                {
+                  type: current.type.name,
+                  selectedType: current.type.name,
+                  title: current.type.name,
+                },
+              ]);
             }}
           >
             {current.type.name}
@@ -355,13 +510,13 @@ export const DocumentationExplorer = () => {
     }
   };
 
-  const scalarObjectType = () => {
-    const description = schema && schema.getType(type);
+  const ScalarObjectType = () => {
+    const description = schema && schema.getType(documentation.type);
 
     return (
       <>
         <div className="docs-root-header">
-          <div className="docs-root-header-title">{selectedTitle}</div>
+          <div className="docs-root-header-title">{documentation.title}</div>
         </div>
         <div className="docs-root-description">{description?.description}</div>
       </>
@@ -369,27 +524,47 @@ export const DocumentationExplorer = () => {
   };
 
   useEffect(() => {
-    fetchSchema();
+    fetchSchema().then((s) => s && setSchema(s));
   }, []);
 
-  const Docs = () => {
-    return type === 'Docs' ? <DefaultDocs /> : <div>{Fields()}</div>;
+  const reversePage = () => {
+    if (backStack.length === 1) {
+      if (documentation.selectedType === 'Query') {
+        setDocumentation({
+          type: 'Docs',
+          selectedType: 'Query',
+          title: 'Docs',
+        });
+        setBackStack([]);
+      } else {
+        setDocumentation(backStack[0]);
+        setBackStack([]);
+      }
+    } else if (backStack.length === 2) {
+      setDocumentation(backStack[0]);
+      setBackStack(backStack.slice(0, -1));
+    } else {
+      setDocumentation(backStack[backStack.length - 2]);
+      setBackStack(backStack.slice(0, -1));
+    }
   };
 
+  const Docs = () => (documentation.type === 'Docs' ? <DefaultDocs /> : <Fields />);
   return (
     schema && (
       <>
-        {/* {type === 'Docs' ? null : (
+        {documentation.type === 'Docs' ? null : (
           <a
             href="#"
             className="back"
             onClick={(e) => {
               e.preventDefault();
+              reversePage();
             }}
           >
-            {selectedTitle}
+            {backStack.length === 1 ? 'Docs' : backStack[backStack.length - 2].type}
           </a>
-        )} */}
+        )}
         <div>{<Docs />}</div>
       </>
     )

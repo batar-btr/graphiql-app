@@ -1,40 +1,82 @@
-interface Location {
-  id: string;
-  name: string;
-  type: string;
-  dimension: string;
-  residents: Array<Character>;
-  created: string;
-}
+import { GraphQLObjectType, GraphQLInputObjectType } from 'graphql';
 
-interface Origin {
-  id: string;
-  name: string;
+export type DocumentationRickAndMorty = {
   type: string;
-  dimension: string;
-  residents: Array<Character>;
-  created: string;
-}
+  selectedType: string;
+  title: string;
+};
 
-export interface Character {
-  id: string;
-  name: string;
-  status: string;
-  species: string;
-  type: string;
-  gender: string;
-  origin: Origin;
-  location: Location;
-  image: string;
-  episode: Array<Episode>;
-  created: string;
-}
+export type GraphQLObject = GraphQLObjectType | GraphQLInputObjectType;
 
-interface Episode {
-  id: string;
+export type GraphQLNestedList = {
   name: string;
-  air_date: string;
-  episode: string;
-  characters: Array<Character>;
-  created: string;
-}
+  args: [GrapQlLNestedNonNull];
+  type: {
+    kind: string;
+    name: string;
+    ofType: {
+      kind: string;
+      name: string;
+      ofType: {
+        kind: string;
+        name: string;
+        ofType: {
+          kind: string;
+          name: string;
+          ofType: null;
+        };
+      };
+    };
+    defaultValue: null;
+  };
+  description: string;
+  isDeprecated: false;
+  deprecationReason: null;
+};
+
+export type GrapQlLNestedNonNull = {
+  name: string;
+  args: {
+    name: string;
+    description: string;
+    type: {
+      kind: string;
+      name: string;
+      ofType: {
+        kind: string;
+        name: string;
+        ofType: {
+          kind: string;
+          name: string;
+          ofType: {
+            kind: string;
+            name: string;
+            ofType: null;
+          };
+        };
+      };
+      defaultValue: null;
+    };
+  };
+  type: {
+    kind: string;
+    name: string;
+    ofType: {
+      kind: string;
+      name: string;
+      ofType: {
+        kind: string;
+        name: string;
+        ofType: {
+          kind: string;
+          name: string;
+          ofType: null;
+        };
+      };
+    };
+    defaultValue: null;
+  };
+  description: string;
+  isDeprecated: false;
+  deprecationReason: null;
+};

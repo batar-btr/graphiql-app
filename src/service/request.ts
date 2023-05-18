@@ -1,8 +1,6 @@
 import { request, gql, Variables } from 'graphql-request';
 
 export const requestSubmit = async (query: string, variable: Variables) => {
-  // const obj = JSON.parse(variable);
-
   const req = await request(
     'https://rickandmortyapi.com/graphql',
     gql`
