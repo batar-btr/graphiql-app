@@ -1,4 +1,6 @@
-.docs {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+.documentation {
   &-root {
     margin-top: 20px;
     &-header {
@@ -38,6 +40,74 @@
         height: 16px;
         margin-right: 8px;
         width: 16px;
+      }
+    }
+  }
+  &-explorer {
+    &-list {
+      list-style-type: none;
+      padding: 0;
+      margin-left: 8px;
+      margin-top: 16px;
+      &-item {
+        margin-top: 16px;
+      }
+    }
+    &-field {
+      margin-left: 8px;
+      margin-top: 16px;
+      &-name {
+        text-decoration: none;
+        color: rgb(64, 129, 250);
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      &-arguments {
+        color: hsl(347, 100%, 71%);
+        &-single {
+          display: inline;
+        }
+      }
+      &-type {
+        text-decoration: none;
+        color: hsl(40, 100%, 46%);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      &-cyan {
+        color: cyan;
+      }
+      &-description {
+        margin-top: 15px;
+        &-dangerously {
+          background-color: hsla(0, 0%, 100%, 0.07);
+          color: hsla(0, 0%, 100%, 1);
+          padding: 2px;
+          border-radius: 4px;
+          font-family: 'Fira Code', monospace;
+          font-size: .9375rem;
+        }
+      }
+    }
+    &-back {
+      display: flex;
+      &-link {
+        align-items: center;
+        color: hsla(0, 0%, 100%, 0.76);
+        text-decoration: none;
+        display: flex;
+        margin-bottom: 10px;
+        &:hover {
+          text-decoration: underline;
+        }
+        svg {
+          height: 8px;
+          margin-right: 8px;
+          width: 8px;
+        }
       }
     }
   }

@@ -85,16 +85,7 @@ const GraphiqlPage = () => {
           flex={layoutState.appPaneV1.flex}
           onResize={onResizePane}
         >
-          <div className="graphiql-doc">
-            {/* <div className="graphiql-doc-header">
-              <h3 className="graphiql-doc-header-title">Documentation</h3>
-            </div>
-            <div className="graphiql-doc-path">
-              <p className="graphiql-doc-path-elem">Root</p>
-            </div>
-            <div className="graphiql-doc-header">
-              <h3 className="graphiql-doc-header-title">Root Types</h3>
-            </div> */}
+          <div className="graphiql-documentation">
             <DocumentationExplorer />
           </div>
         </ReflexElement>

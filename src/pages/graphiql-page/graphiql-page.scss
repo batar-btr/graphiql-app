@@ -172,10 +172,11 @@
     height: calc(100vh - 104px);
     width: 100%;
   }
-  &-doc {
+  &-documentation {
     height: 100%;
     padding: 0rem 1rem 1rem 1rem;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
     &-header {
       &-title {
         font-weight: 600;
