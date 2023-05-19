@@ -2,6 +2,7 @@
 .cm-editor,
 .cm-content {
   height: 100%;
+  font-family: 'Fira Code', monospace;
 }
 .cm-selectionBackground,
 .ͼ3l .cm-content ::selection {
@@ -70,6 +71,8 @@
 .ͼ1.cm-focused {
   outline: none;
 }
+
+
 
 .reflex-container > .horizontal.reflex-element {
   overflow: hidden;
@@ -258,6 +261,10 @@
     height: 100%;
     & .cm-lineNumbers {
       display: none !important;
+    }
+    &-editor {
+      height: 100%;  
+      
     }
   }
 }

@@ -21,7 +21,7 @@
     }
     &-scalar {
       text-decoration: none;
-      color: crimson;
+      color: hsl(40, 100%, 46%);
       &:hover {
         text-decoration: underline;
       }
@@ -68,6 +68,9 @@
         &-single {
           display: inline;
         }
+        &-notsingle {
+          margin-left: 8px;
+        }
       }
       &-type {
         text-decoration: none;
@@ -77,9 +80,7 @@
           text-decoration: underline;
         }
       }
-      &-cyan {
-        color: cyan;
-      }
+
       &-description {
         margin-top: 15px;
         &-dangerously {
@@ -88,7 +89,7 @@
           padding: 2px;
           border-radius: 4px;
           font-family: 'Fira Code', monospace;
-          font-size: .9375rem;
+          font-size: 0.9375rem;
         }
       }
     }

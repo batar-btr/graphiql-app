@@ -34,12 +34,12 @@ export const GraphiqlCodeEditor = () => {
             onShowInDocs(field, type, parentType) {
               alert(`Showing in docs.: Field: ${field}, Type: ${type}, ParentType: ${parentType}`);
             },
-            onFillAllFields(view, schema, _query, cursor, token) {
+            onFillAllFields(_query, token) {
               alert(`Filling all fields. Token: ${token}`);
             },
           }),
         ]}
-        onChange={(value, viewUpdate) => {
+        onChange={(value) => {
           dispatch(setQuery({ value }));
         }}
       />

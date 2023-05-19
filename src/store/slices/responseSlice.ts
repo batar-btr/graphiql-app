@@ -1,6 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { requestSubmit } from '../../service/request';
-import { Variables } from 'graphql-request';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
   value: string;
@@ -9,15 +7,6 @@ interface InitialState {
 const initialState: InitialState = {
   value: ``,
 };
-
-// export const setResponse = createAsyncThunk(
-//   'response/setResponse',
-//   async (query: string, variables: Variables) => {
-//     console.log(query, variables);
-
-//     return await requestSubmit(query, variables);
-//   }
-// );
 
 const responseSlice = createSlice({
   name: 'response',

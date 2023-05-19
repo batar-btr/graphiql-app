@@ -1,16 +1,32 @@
-import { request, gql, Variables } from 'graphql-request';
+import { request, gql, Variables, ClientError } from 'graphql-request';
+import { handleResponse } from './handleError';
+import { useAppDispatch } from '../hooks/redux-hooks';
+import { setResponse } from '../store/slices/responseSlice';
 
-export const requestSubmit = async (query: string, variable: Variables) => {
-  const req = await request(
-    'https://rickandmortyapi.com/graphql',
-    gql`
-      ${query}
-    `,
-    variable
-  ).then((data) => {
-    const response = JSON.stringify(data, null, 2);
-    return response;
-  });
+export const useGraphQLRequest = () => {
+  const dispatch = useAppDispatch();
 
-  return req;
+  const handleRequest = async (query: string, variables: Variables) => {
+    const endpoint = 'https://rickandmortyapi.com/graphql';
+    try {
+      const responseData = await request(
+        endpoint,
+        gql`
+          ${query}
+        `,
+        variables
+      );
+
+      const resp = JSON.stringify(responseData, null, 2);
+
+      return resp;
+    } catch (err: unknown) {
+      if (err instanceof ClientError) {
+        const value = handleResponse(err);
+        dispatch(setResponse({ value }));
+      }
+    }
+  };
+
+  return { handleRequest };
 };
