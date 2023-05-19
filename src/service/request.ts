@@ -8,7 +8,6 @@ export const requestSubmit = async (query: string, variable: Variables) => {
     `,
     variable
   ).then((data) => {
-    console.log(data);
     const response = JSON.stringify(data, null, 2);
     return response;
   });
