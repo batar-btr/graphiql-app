@@ -76,7 +76,8 @@ const GraphiqlPage = () => {
       handleRequest(query, obj).then((value) => value && dispatch(setResponse({ value })));
     } catch (err: unknown) {
       if (err instanceof Error) {
-        const value = err.message;
+        const value = `Variables are invalid JSON: ${err.message}`;
+
         dispatch(setResponse({ value }));
       }
     }

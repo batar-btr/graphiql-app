@@ -9,12 +9,14 @@ export const handleResponse = (error: ClientError) => {
         locations:
           err.locations &&
           err.locations.map((loc) => {
-            const arr = [];
-            arr.push(`"line": ${loc.line}, "column": ${loc.column}`);
-            return `${arr}`;
+            return {
+              line: loc.line,
+              column: loc.column,
+            };
           }),
         extensions: err.extensions,
       })),
   };
+
   return JSON.stringify(data, null, 2);
 };

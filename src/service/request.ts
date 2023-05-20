@@ -23,6 +23,7 @@ export const useGraphQLRequest = () => {
     } catch (err: unknown) {
       if (err instanceof ClientError) {
         const value = handleResponse(err);
+
         dispatch(setResponse({ value }));
       }
     }
