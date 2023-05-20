@@ -72,8 +72,6 @@
   outline: none;
 }
 
-
-
 .reflex-container > .horizontal.reflex-element {
   overflow: hidden;
 }
@@ -176,7 +174,6 @@
     width: 100%;
   }
   &-documentation {
-    height: 100%;
     padding: 0rem 1rem 1rem 1rem;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
@@ -263,8 +260,7 @@
       display: none !important;
     }
     &-editor {
-      height: 100%;  
-      
+      height: 100%;
     }
   }
 }
