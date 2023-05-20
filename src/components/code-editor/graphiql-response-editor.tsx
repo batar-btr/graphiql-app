@@ -1,14 +1,16 @@
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
 import { graphql } from 'cm6-graphql';
-import { useEffect } from 'react';
 import { useAppSelector } from '../../hooks/redux-hooks';
+import Spinner from '../spinner/Spinner';
 
 export const GraphiqlResponseEditor = () => {
   const result = useAppSelector((state) => state.response.value);
+  const loading = useAppSelector((state) => state.loading.value);
 
-  useEffect(() => {}, [result]);
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <CodeMirror
       className="graphiql-response-editor"
       theme={vscodeDarkInit({
