@@ -8,6 +8,9 @@ import { useGraphQLRequest } from '../../service/request';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { setResponse } from '../../store/slices/responseSlice';
 import { DocumentationExplorer } from '../../explorer/testExplorer';
+import useAuth from '../../hooks/use-auth';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 interface ILayoutState {
   appPaneV1: {
@@ -54,6 +57,15 @@ const getLayoutState = (): ILayoutState => {
 };
 
 const GraphiqlPage = () => {
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/');
+    }
+  }, [isAuth, navigate]);
+
   const layoutState = getLayoutState();
 
   const dispatch = useAppDispatch();
