@@ -4,6 +4,10 @@ import 'react-reflex/styles.css';
 import { GraphiqlCodeEditor } from '../../components/code-editor/graphiql-code-editor';
 import { GraphiqlVariablesEditor } from '../../components/code-editor/graphiql-variables-editor';
 import { GraphiqlResponseEditor } from '../../components/code-editor/graphiql-response-editor';
+import { useGraphQLRequest } from '../../service/request';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { setResponse } from '../../store/slices/responseSlice';
+import { DocumentationExplorer } from '../../explorer/testExplorer';
 
 interface ILayoutState {
   appPaneV1: {
@@ -52,6 +56,11 @@ const getLayoutState = (): ILayoutState => {
 const GraphiqlPage = () => {
   const layoutState = getLayoutState();
 
+  const dispatch = useAppDispatch();
+  const query = useAppSelector((state) => state.query.value);
+  const variable = useAppSelector((state) => state.variable.value);
+  const { handleRequest } = useGraphQLRequest();
+
   const onResizePane = (event: HandlerProps) => {
     const { name, flex } = event.component.props;
 
@@ -59,6 +68,19 @@ const GraphiqlPage = () => {
       flex!;
 
     window.localStorage.setItem('re-flex', JSON.stringify(layoutState));
+  };
+
+  const handleSubmit = () => {
+    try {
+      const obj = variable ? JSON.parse(variable) : {};
+      handleRequest(query, obj).then((value) => value && dispatch(setResponse({ value })));
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        const value = `Variables are invalid JSON: ${err.message}`;
+
+        dispatch(setResponse({ value }));
+      }
+    }
   };
 
   return (
@@ -70,16 +92,8 @@ const GraphiqlPage = () => {
           flex={layoutState.appPaneV1.flex}
           onResize={onResizePane}
         >
-          <div className="graphiql-doc">
-            <div className="graphiql-doc-header">
-              <h3 className="graphiql-doc-header-title">Documentation</h3>
-            </div>
-            <div className="graphiql-doc-path">
-              <p className="graphiql-doc-path-elem">Root</p>
-            </div>
-            <div className="graphiql-doc-header">
-              <h3 className="graphiql-doc-header-title">Root Types</h3>
-            </div>
+          <div className="graphiql-documentation">
+            <DocumentationExplorer />
           </div>
         </ReflexElement>
 
@@ -94,7 +108,7 @@ const GraphiqlPage = () => {
           <div className="graphiql-code">
             <div className="graphiql-code-header">
               <span className="graphiql-code-header-title">Operation</span>
-              <button className="graphiql-code-header-btn">
+              <button className="graphiql-code-header-btn" onClick={() => handleSubmit()}>
                 <span className="graphiql-code-header-btn-img">
                   <svg viewBox="0 0 40 40">
                     <path

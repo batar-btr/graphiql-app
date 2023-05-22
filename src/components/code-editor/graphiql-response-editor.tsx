@@ -1,10 +1,16 @@
-import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
 import { graphql } from 'cm6-graphql';
+import { useAppSelector } from '../../hooks/redux-hooks';
+import Spinner from '../spinner/Spinner';
 
 export const GraphiqlResponseEditor = () => {
-  return (
+  const result = useAppSelector((state) => state.response.value);
+  const loading = useAppSelector((state) => state.loading.value);
+
+  return loading ? (
+    <Spinner />
+  ) : (
     <CodeMirror
       className="graphiql-response-editor"
       theme={vscodeDarkInit({
@@ -15,15 +21,8 @@ export const GraphiqlResponseEditor = () => {
         },
       })}
       readOnly={true}
-      value={`{
-  first {
-    example
-  }
-}`}
+      value={result}
       extensions={[graphql()]}
-      onChange={(value, viewUpdate) => {
-        console.log('value:', value);
-      }}
     />
   );
 };

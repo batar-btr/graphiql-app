@@ -12,11 +12,14 @@
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.1.7",
+    "@codemirror/lang-json": "^6.0.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@uiw/codemirror-theme-vscode": "^4.19.16",
     "@uiw/react-codemirror": "^4.19.16",
     "cm6-graphql": "^0.0.5",
     "firebase": "^9.21.0",
+    "graphql-request": "^6.0.0",
+    "graphql-tag": "^2.12.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
@@ -26,6 +29,9 @@
     "styled-components": "^5.3.10"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.3.1",
+    "@graphql-codegen/typescript": "^3.0.4",
+    "@graphql-codegen/typescript-operations": "^3.0.4",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",

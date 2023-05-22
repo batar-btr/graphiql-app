@@ -1,13 +1,19 @@
-import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
 import { graphql } from 'cm6-graphql';
-import { TestSchema } from '../../pages/graphiql-page/testSchema';
+
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+
+import { setVariable } from '../../store/slices/variableSlice';
 
 export const GraphiqlVariablesEditor = () => {
+  const dispatch = useAppDispatch();
+  const variable = useAppSelector((state) => state.variable.value);
+
   return (
     <CodeMirror
       className="graphiql-variables-editor"
+      value={variable}
       theme={vscodeDarkInit({
         settings: {
           fontFamily: 'monospace',
@@ -16,8 +22,8 @@ export const GraphiqlVariablesEditor = () => {
         },
       })}
       extensions={[graphql()]}
-      onChange={(value, viewUpdate) => {
-        console.log('value:', value);
+      onChange={(value) => {
+        dispatch(setVariable({ value }));
       }}
     />
   );

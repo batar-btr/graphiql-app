@@ -2,6 +2,7 @@
 .cm-editor,
 .cm-content {
   height: 100%;
+  font-family: 'Fira Code', monospace;
 }
 .cm-selectionBackground,
 .ͼ3l .cm-content ::selection {
@@ -169,13 +170,13 @@
 .graphiql {
   &-page {
     display: flex;
-
+    height: calc(100vh - 104px);
     width: 100%;
   }
-  &-doc {
-    height: 100%;
+  &-documentation {
     padding: 0rem 1rem 1rem 1rem;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
     &-header {
       &-title {
         font-weight: 600;
@@ -257,6 +258,9 @@
     height: 100%;
     & .cm-lineNumbers {
       display: none !important;
+    }
+    &-editor {
+      height: 100%;
     }
   }
 }
