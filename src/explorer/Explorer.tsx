@@ -13,11 +13,11 @@ import { DocsExplorerFieldSvg } from './docsExplorerSvgFields';
 import { DocsExplorerRootSvg } from './docsExplorerRootSvg';
 import { DocsExplorerTypeSvg } from './doscExplorerTypeSvg';
 import { DocsExplorerArgumentsSvg } from './docsExplorerArgumentsSvg';
+import { DocsExplorerBackPageSvg } from './docsExplorerBackpageSvg';
 
 import { GraphQLNestedList, GraphQLObject, DocumentationRickAndMorty } from '../service/types';
 import { fetchSchema } from '../service/fetchSchema';
 import './Schema.scss';
-import { DocsExplorerBackPageSvg } from './docsExplorerBackpageSvg';
 
 export const DocumentationExplorer = () => {
   const [schema, setSchema] = useState<GraphQLSchema | null>(null);

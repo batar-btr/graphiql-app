@@ -1,0 +1,23 @@
+{
+  "wellcome": "Wellcome",
+  "graphiql": "Graphiql",
+  "signin": "SignIn",
+  "signinCamel": "SIGN-IN",
+  "signup": "SignUp",
+  "signupCamel": "SIGN-UP",
+  "signout": "SignOut",
+  "authpage": "Auth Page",
+  "operation": "Query editor",
+  "variable": "Variables",
+  "response": "Response",
+  "buttonQuery": "Query",
+  "email": "E-mail",
+  "password": "Password",
+  "submit": "Submit",
+  "oops": "Oops!",
+  "errorDescription": "Sorry, an unexpected error has occurred.",
+  "welcomePage": "Welcome Page",
+  "goToMain": "Go to Main Page",
+  "docsTitle": "Docs",
+  "docsDescription": "A GraphQL schema provides a root type for each kind of operation."
+}
