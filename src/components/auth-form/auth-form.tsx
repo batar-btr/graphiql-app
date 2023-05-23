@@ -9,7 +9,7 @@ import {
 } from '@firebase/auth';
 import { useState } from 'react';
 import { FirebaseError } from '@firebase/util';
-
+import { useTranslation } from 'react-i18next';
 interface FormInputs {
   email: string;
   password: string;
@@ -26,6 +26,7 @@ const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]
 
 const AuthForm = ({ mode }: AuthFormProps) => {
   const [error, setError] = useState<string>('');
+  const { t } = useTranslation();
 
   const auth = getAuth();
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
             pattern: { value: eMailValidationRegEx, message: 'Enter valid E-mail' },
           })}
         />
-        <span className="input-label">E-mail</span>
+        <span className="input-label">{t('email')}</span>
         {errors.email && <InputError message={errors.email.message} />}
       </div>
       <div>
@@ -80,10 +81,10 @@ const AuthForm = ({ mode }: AuthFormProps) => {
             minLength: { value: 8, message: 'Should be at least 8 chars' },
           })}
         />
-        <span className="input-label">Password</span>
+        <span className="input-label">{t('password')}</span>
         {errors.password && <InputError message={errors.password.message} />}
       </div>
-      <input type="submit" value={'Submit'} />
+      <input type="submit" value={t('submit')!} />
       {error && <div className="submit-error">{error}</div>}
     </form>
   );

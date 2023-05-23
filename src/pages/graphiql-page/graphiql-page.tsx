@@ -7,11 +7,12 @@ import { GraphiqlResponseEditor } from '../../components/code-editor/graphiql-re
 import { useGraphQLRequest } from '../../service/request';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { setResponse } from '../../store/slices/responseSlice';
-import { DocumentationExplorer } from '../../explorer/testExplorer';
+import { DocumentationExplorer } from '../../explorer/Explorer';
 import useAuth from '../../hooks/use-auth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-
+import { Suspense } from 'react';
+import { useTranslation } from 'react-i18next';
 interface ILayoutState {
   appPaneV1: {
     flex: number;
@@ -59,6 +60,7 @@ const getLayoutState = (): ILayoutState => {
 const GraphiqlPage = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isAuth) {
@@ -104,9 +106,13 @@ const GraphiqlPage = () => {
           flex={layoutState.appPaneV1.flex}
           onResize={onResizePane}
         >
-          <div className="graphiql-documentation">
-            <DocumentationExplorer />
-          </div>
+          {
+            <Suspense>
+              <div className="graphiql-documentation">
+                <DocumentationExplorer />
+              </div>
+            </Suspense>
+          }
         </ReflexElement>
 
         <ReflexSplitter propagate={true} />
@@ -119,7 +125,7 @@ const GraphiqlPage = () => {
         >
           <div className="graphiql-code">
             <div className="graphiql-code-header">
-              <span className="graphiql-code-header-title">Operation</span>
+              <span className="graphiql-code-header-title">{t('operation')}</span>
               <button className="graphiql-code-header-btn" onClick={() => handleSubmit()}>
                 <span className="graphiql-code-header-btn-img">
                   <svg viewBox="0 0 40 40">
@@ -131,7 +137,7 @@ const GraphiqlPage = () => {
                     ></path>
                   </svg>
                 </span>
-                <span className="graphiql-code-header-btn-text">Query</span>
+                <span className="graphiql-code-header-btn-text">{t('buttonQuery')}</span>
               </button>
             </div>
             <ReflexContainer orientation="horizontal">
@@ -151,7 +157,7 @@ const GraphiqlPage = () => {
                 onResize={onResizePane}
               >
                 <div className="graphiql-code-header graphiql-variables-editor-header">
-                  <span className="graphiql-code-header-title">Variables</span>
+                  <span className="graphiql-code-header-title">{t('variable')}</span>
                 </div>
                 <GraphiqlVariablesEditor />
               </ReflexElement>
@@ -169,7 +175,7 @@ const GraphiqlPage = () => {
         >
           <div className="graphiql-response">
             <div className="graphiql-code-header">
-              <span className="graphiql-code-header-title">Response</span>
+              <span className="graphiql-code-header-title">{t('response')}</span>
             </div>
             <GraphiqlResponseEditor />
           </div>
