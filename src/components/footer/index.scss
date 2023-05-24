@@ -1,8 +1,44 @@
-footer {
-  display: flex;
-  justify-content: center;
+.footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
   align-items: center;
   box-sizing: border-box;
-  height: 4rem;
   border-top: 1px solid var(--border-gray);
+  &-rsschool {
+    &-svg {
+      svg {
+        &:hover {
+          path {
+            transition: all 0.5s;
+            fill: white;
+            stroke: white;
+          }
+          path:nth-child(5) {
+            fill: none;
+          }
+        }
+      }
+    }
+  }
+  &-creation {
+    h2 {
+      color: #808080;
+      cursor: default;
+      transition: all 0.5s;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  &-github {
+    &-svg {
+      svg {
+        transition: all 0.5s;
+        &:hover {
+          fill: white;
+        }
+      }
+    }
+  }
 }
