@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <header>
       <nav>
-        <NavLink to="/">{t('wellcome')}</NavLink>
+        <NavLink to="/">{t('welcome')}</NavLink>
         <NavLink to="/graphiql">{t('graphiql')}</NavLink>
       </nav>
       <LanguageSelector />
