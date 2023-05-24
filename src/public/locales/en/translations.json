@@ -1,6 +1,6 @@
 {
-  "wellcome": "Wellcome",
-  "graphiql": "Graphiql",
+  "welcome": "Welcome",
+  "graphiql": "GraphiQL",
   "signin": "SignIn",
   "signinCamel": "SIGN-IN",
   "signup": "SignUp",
@@ -17,7 +17,5 @@
   "oops": "Oops!",
   "errorDescription": "Sorry, an unexpected error has occurred.",
   "welcomePage": "Welcome Page",
-  "goToMain": "Go to Main Page",
-  "docsTitle": "Docs",
-  "docsDescription": "A GraphQL schema provides a root type for each kind of operation."
+  "goToMain": "Go to Main Page"
 }
