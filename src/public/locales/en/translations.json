@@ -1,6 +1,5 @@
 {
   "welcome": "Welcome",
-  "graphiql": "GraphiQL",
   "signin": "SignIn",
   "signinCamel": "SIGN-IN",
   "signup": "SignUp",
@@ -16,6 +15,17 @@
   "submit": "Submit",
   "oops": "Oops!",
   "errorDescription": "Sorry, an unexpected error has occurred.",
-  "welcomePage": "Welcome Page",
-  "goToMain": "Go to Main Page"
+  "goToMain": "Go to Main Page",
+  "welcomePage": "WELCOME",
+  "to": "to",
+  "playground": "is a playground/IDE for graphQL requests.",
+  "final": "is the final project in the framework of the",
+  "react": "React Course",
+  "course": "This course is aimed to the students of the RS School which passed RS School stage #2 and for the new students, which have experience with:",
+  "understanding": "Understanding of how to interact with apis (general understanding of REST and GraphQL)",
+  "team": "Our team:",
+  "Illia": "Illia Batarin",
+  "Kostiantyn": "Kostiantyn Kornienko",
+  "Aleksandr": "Aleksandr Rudenko",
+  "footer": "GraphiQL © 2023 Designed by Rick and Morty"
 }
