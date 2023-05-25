@@ -10,7 +10,7 @@ import { setResponse } from '../../store/slices/responseSlice';
 import { DocumentationExplorer } from '../../explorer/Explorer';
 import useAuth from '../../hooks/use-auth';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Suspense } from 'react';
 import Spinner from '../../components/spinner/Spinner';
@@ -31,6 +31,7 @@ interface ILayoutState {
   appPaneH2: {
     flex: number;
   };
+  sidebarHidden: boolean;
 }
 
 const getLayoutState = (): ILayoutState => {
@@ -56,6 +57,7 @@ const getLayoutState = (): ILayoutState => {
     appPaneH2: {
       flex: 0.222222,
     },
+    sidebarHidden: false,
   };
 };
 
@@ -70,7 +72,11 @@ const GraphiqlPage = () => {
     }
   }, [isAuth, navigate]);
 
-  const layoutState = getLayoutState();
+  const [layoutState, setLayoutState] = useState(getLayoutState());
+
+  useEffect(() => {
+    window.localStorage.setItem('re-flex', JSON.stringify(layoutState));
+  }, [layoutState.sidebarHidden]);
 
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.query.value);
@@ -80,8 +86,12 @@ const GraphiqlPage = () => {
   const onResizePane = (event: HandlerProps) => {
     const { name, flex } = event.component.props;
 
-    layoutState[name! as 'appPaneV1' | 'appPaneV2' | 'appPaneV3' | 'appPaneH1' | 'appPaneH2'].flex =
-      flex!;
+    setLayoutState((prevState) => ({
+      ...prevState,
+      [name! as 'appPaneV1' | 'appPaneV2' | 'appPaneV3' | 'appPaneH1' | 'appPaneH2']: {
+        flex: flex,
+      },
+    }));
 
     window.localStorage.setItem('re-flex', JSON.stringify(layoutState));
   };
@@ -99,14 +109,60 @@ const GraphiqlPage = () => {
     }
   };
 
+  const closeSidebar = () => {
+    if (!layoutState.sidebarHidden) {
+      setLayoutState((prevState) => ({
+        ...prevState,
+        ['appPaneV2']: {
+          flex: 0.5,
+        },
+        ['appPaneV3']: {
+          flex: 0.5,
+        },
+        sidebarHidden: true,
+      }));
+    } else {
+      setLayoutState((prevState) => ({
+        ...prevState,
+        ['appPaneV2']: {
+          flex: getLayoutState().appPaneV2.flex,
+        },
+        ['appPaneV3']: {
+          flex: getLayoutState().appPaneV3.flex,
+        },
+        sidebarHidden: false,
+      }));
+    }
+  };
+
   return (
     <div className="graphiql-page">
+      <div className="graphiql-sidebar">
+        <button onClick={closeSidebar} className="graphiql-sidebar-btn">
+          <svg height="1em" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0.75 3C0.75 4.24264 1.75736 5.25 3 5.25H17.25M0.75 3C0.75 1.75736 1.75736 0.75 3 0.75H16.25C16.8023 0.75 17.25 1.19772 17.25 1.75V5.25M0.75 3V21C0.75 22.2426 1.75736 23.25 3 23.25H18.25C18.8023 23.25 19.25 22.8023 19.25 22.25V6.25C19.25 5.69771 18.8023 5.25 18.25 5.25H17.25"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            ></path>
+            <line
+              x1="13"
+              y1="11.75"
+              x2="6"
+              y2="11.75"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            ></line>
+          </svg>
+        </button>
+      </div>
       <ReflexContainer orientation="vertical">
         <ReflexElement
           name="appPaneV1"
           minSize={200}
           flex={layoutState.appPaneV1.flex}
           onResize={onResizePane}
+          style={{ display: `${layoutState.sidebarHidden ? 'none' : 'flex'}` }}
         >
           {
             <Suspense fallback={<Spinner />}>
@@ -117,7 +173,10 @@ const GraphiqlPage = () => {
           }
         </ReflexElement>
 
-        <ReflexSplitter propagate={true} />
+        <ReflexSplitter
+          propagate={true}
+          style={{ display: `${layoutState.sidebarHidden ? 'none' : 'flex'}` }}
+        />
 
         <ReflexElement
           name="appPaneV2"
