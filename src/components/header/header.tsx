@@ -14,7 +14,7 @@ const Header = () => {
     <header>
       <nav>
         <NavLink to="/">{t('welcome')}</NavLink>
-        <NavLink to="/graphiql">{t('graphiql')}</NavLink>
+        <NavLink to="/graphiql">GraphiQL</NavLink>
       </nav>
       <LanguageSelector />
       {isAuth ? (
