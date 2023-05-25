@@ -11,8 +11,10 @@ import { DocumentationExplorer } from '../../explorer/Explorer';
 import useAuth from '../../hooks/use-auth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Suspense } from 'react';
+import Spinner from '../../components/spinner/Spinner';
+
 interface ILayoutState {
   appPaneV1: {
     flex: number;
@@ -107,7 +109,7 @@ const GraphiqlPage = () => {
           onResize={onResizePane}
         >
           {
-            <Suspense>
+            <Suspense fallback={<Spinner />}>
               <div className="graphiql-documentation">
                 <DocumentationExplorer />
               </div>
@@ -177,7 +179,9 @@ const GraphiqlPage = () => {
             <div className="graphiql-code-header">
               <span className="graphiql-code-header-title">{t('response')}</span>
             </div>
-            <GraphiqlResponseEditor />
+            <Suspense fallback={<Spinner />}>
+              <GraphiqlResponseEditor />
+            </Suspense>
           </div>
         </ReflexElement>
       </ReflexContainer>

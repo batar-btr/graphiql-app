@@ -10,6 +10,8 @@ import GraphiqlPage from './pages/graphiql-page/graphiql-page';
 import WelcomePage from './pages/welcome-page/welcome-page';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import { Suspense } from 'react';
+import Spinner from './components/spinner/Spinner';
 import './i18n';
 
 const router = createBrowserRouter([
@@ -37,8 +39,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <Suspense fallback={<Spinner />}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </Suspense>
   </React.StrictMode>
 );
