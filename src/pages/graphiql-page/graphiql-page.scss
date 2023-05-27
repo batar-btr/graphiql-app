@@ -335,8 +335,8 @@
     height: auto;
     width: 100%;
   }
-  .reflex-splitter {
-    display: none;
+  .reflex-container.vertical > .reflex-splitter:nth-of-type(2) {
+    display: none !important;
   }
   .graphiql-response {
     height: calc(100vh - 104px);
@@ -344,5 +344,8 @@
   .vertical.reflex-container .vertical.reflex-element:nth-of-type(1) {
     width: 100%;
     height: calc(100vh - 104px);
+  }
+  .cm-content {
+    font-size: 14px !important;
   }
 }

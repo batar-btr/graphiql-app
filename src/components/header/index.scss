@@ -7,6 +7,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  column-gap: 10px;
   padding: 0 20px;
   font-weight: bold;
   background-color: #1f1f1f;
@@ -34,12 +36,22 @@ header {
   }
   .lang {
     margin-left: auto;
-    margin-right: 15px;
+    margin-right: 6px;
   }
   .auth-btns {
     width: 200px;
     span {
       user-select: none;
     }
+  }
+}
+
+@media screen and (max-width: 363px) {
+  header .lang {
+    order: 4;
+    margin-bottom: 5px;
+  }
+  header nav {
+    translate: 0px 13px;
   }
 }

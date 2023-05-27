@@ -74,5 +74,19 @@
     &-github {
       grid-row: 3;
     }
+    & h2 {
+      font-size: 20px;
+    }
+    & .footer-rsschool-svg {
+      svg {
+        height: 45px;
+      }
+    }
+    & .footer-github-svg {
+      svg {
+        height: 60px;
+        width: 60px;
+      }
+    }
   }
 }
