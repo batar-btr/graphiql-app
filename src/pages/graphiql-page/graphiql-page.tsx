@@ -31,7 +31,6 @@ interface ILayoutState {
   appPaneH2: {
     flex: number;
   };
-  sidebarHidden: boolean;
 }
 
 const getLayoutState = (): ILayoutState => {
@@ -57,7 +56,6 @@ const getLayoutState = (): ILayoutState => {
     appPaneH2: {
       flex: 0.222222,
     },
-    sidebarHidden: false,
   };
 };
 
@@ -73,14 +71,12 @@ const GraphiqlPage = () => {
   }, [isAuth, navigate]);
 
   const [layoutState, setLayoutState] = useState(getLayoutState());
-
-  useEffect(() => {
-    window.localStorage.setItem('re-flex', JSON.stringify(layoutState));
-  }, [layoutState.sidebarHidden]);
+  const [sidebarHidden, setSidebarHidden] = useState(true);
 
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.query.value);
   const variable = useAppSelector((state) => state.variable.value);
+  const schema = useAppSelector((state) => state.schema.value);
   const { handleRequest } = useGraphQLRequest();
 
   const onResizePane = (event: HandlerProps) => {
@@ -109,36 +105,12 @@ const GraphiqlPage = () => {
     }
   };
 
-  const closeSidebar = () => {
-    if (!layoutState.sidebarHidden) {
-      setLayoutState((prevState) => ({
-        ...prevState,
-        ['appPaneV2']: {
-          flex: 0.5,
-        },
-        ['appPaneV3']: {
-          flex: 0.5,
-        },
-        sidebarHidden: true,
-      }));
-    } else {
-      setLayoutState((prevState) => ({
-        ...prevState,
-        ['appPaneV2']: {
-          flex: getLayoutState().appPaneV2.flex,
-        },
-        ['appPaneV3']: {
-          flex: getLayoutState().appPaneV3.flex,
-        },
-        sidebarHidden: false,
-      }));
-    }
-  };
+  const closeSidebar = () => setSidebarHidden((prev) => !prev);
 
   return (
     <div className="graphiql-page">
       <div className="graphiql-sidebar">
-        <button onClick={closeSidebar} className="graphiql-sidebar-btn">
+        <button onClick={closeSidebar} className="graphiql-sidebar-btn" disabled={schema}>
           <svg height="1em" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M0.75 3C0.75 4.24264 1.75736 5.25 3 5.25H17.25M0.75 3C0.75 1.75736 1.75736 0.75 3 0.75H16.25C16.8023 0.75 17.25 1.19772 17.25 1.75V5.25M0.75 3V21C0.75 22.2426 1.75736 23.25 3 23.25H18.25C18.8023 23.25 19.25 22.8023 19.25 22.25V6.25C19.25 5.69771 18.8023 5.25 18.25 5.25H17.25"
@@ -162,7 +134,7 @@ const GraphiqlPage = () => {
           minSize={200}
           flex={layoutState.appPaneV1.flex}
           onResize={onResizePane}
-          style={{ display: `${layoutState.sidebarHidden ? 'none' : 'flex'}` }}
+          style={{ display: `${sidebarHidden ? 'none' : 'flex'}` }}
         >
           {
             <Suspense fallback={<Spinner />}>
@@ -175,7 +147,7 @@ const GraphiqlPage = () => {
 
         <ReflexSplitter
           propagate={true}
-          style={{ display: `${layoutState.sidebarHidden ? 'none' : 'flex'}` }}
+          style={{ display: `${sidebarHidden ? 'none' : 'flex'}` }}
         />
 
         <ReflexElement

@@ -18,6 +18,8 @@ import { DocsExplorerBackPageSvg } from './docsExplorerBackpageSvg';
 import { GraphQLNestedList, GraphQLObject, DocumentationRickAndMorty } from '../service/types';
 import { fetchSchema } from '../service/fetchSchema';
 import './Schema.scss';
+import { useAppDispatch } from '../hooks/redux-hooks';
+import { setSchemaslice } from '../store/slices/schemaSlice';
 
 export const DocumentationExplorer = () => {
   const [schema, setSchema] = useState<GraphQLSchema | null>(null);
@@ -27,6 +29,8 @@ export const DocumentationExplorer = () => {
     selectedType: 'Query',
     title: 'Docs',
   });
+
+  const dispatch = useAppDispatch();
 
   const DefaultDocs = () => {
     return (
@@ -572,8 +576,11 @@ export const DocumentationExplorer = () => {
   };
 
   useEffect(() => {
-    fetchSchema().then((s) => s && setSchema(s));
-  }, []);
+    fetchSchema().then((s) => {
+      s && setSchema(s.schema);
+      s && dispatch(setSchemaslice({ value: !(s.status === 200) }));
+    });
+  }, [dispatch]);
 
   const reversePage = () => {
     if (backStack.length === 1) {
@@ -599,25 +606,23 @@ export const DocumentationExplorer = () => {
 
   const Docs = () => (documentation.type === 'Docs' ? <DefaultDocs /> : <Fields />);
   return (
-    schema && (
-      <>
-        {documentation.type === 'Docs' ? null : (
-          <div className="documentation-explorer-back">
-            <a
-              href="#"
-              className="documentation-explorer-back-link"
-              onClick={(e) => {
-                e.preventDefault();
-                reversePage();
-              }}
-            >
-              <DocsExplorerBackPageSvg />
-              {backStack.length === 1 ? 'Docs' : backStack[backStack.length - 2].type}
-            </a>
-          </div>
-        )}
-        <div className="documentation-explorer">{<Docs />}</div>
-      </>
-    )
+    <>
+      {documentation.type === 'Docs' ? null : (
+        <div className="documentation-explorer-back">
+          <a
+            href="#"
+            className="documentation-explorer-back-link"
+            onClick={(e) => {
+              e.preventDefault();
+              reversePage();
+            }}
+          >
+            <DocsExplorerBackPageSvg />
+            {backStack.length === 1 ? 'Docs' : backStack[backStack.length - 2].type}
+          </a>
+        </div>
+      )}
+      <div className="documentation-explorer">{<Docs />}</div>
+    </>
   );
 };
