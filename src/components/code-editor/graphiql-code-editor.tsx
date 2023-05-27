@@ -15,7 +15,7 @@ export const GraphiqlCodeEditor = () => {
   const [schema, setSchema] = useState<GraphQLSchema | null>(null);
 
   useEffect(() => {
-    fetchSchema().then((s) => s && setSchema(s));
+    fetchSchema().then((s) => s && setSchema(s.schema));
   }, []);
 
   return schema ? (

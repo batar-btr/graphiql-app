@@ -15,8 +15,9 @@ export const fetchSchema = async () => {
       throw new Error(result.errors[0].message);
     }
     const schema = buildClientSchema(result.data);
+    const status = response.status;
 
-    return schema;
+    return { schema, status };
   } catch (err) {
     console.error(err);
   }

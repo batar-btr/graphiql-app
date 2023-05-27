@@ -576,9 +576,10 @@ export const DocumentationExplorer = () => {
   };
 
   useEffect(() => {
-    fetchSchema()
-      .then((s) => s && setSchema(s))
-      .then(() => dispatch(setSchemaslice({ value: false })));
+    fetchSchema().then((s) => {
+      s && setSchema(s.schema);
+      s && dispatch(setSchemaslice({ value: !(s.status === 200) }));
+    });
   }, [dispatch]);
 
   const reversePage = () => {
