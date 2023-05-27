@@ -183,7 +183,19 @@
     max-width: 200px;
     max-height: 200px;
   }
+}
+@media screen and (max-width: 600px) {
   .welcome-page-wrapper-description h1 {
     font-size: 50px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .welcome-page-wrapper-description h1 {
+    font-size: 40px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .welcome-page-wrapper-description h1 {
+    font-size: 30px;
   }
 }
