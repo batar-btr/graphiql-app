@@ -1,12 +1,18 @@
 header {
+  position: fixed;
+  width: 100%;
   box-sizing: border-box;
   height: 4rem;
   border-bottom: 1px solid var(--border-gray);
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  flex-wrap: wrap;
+  column-gap: 15px;
+  padding: 10px 20px;
   font-weight: bold;
+  background-color: #1f1f1f;
+  z-index: 1000;
   nav {
     display: flex;
     gap: 20px;
@@ -30,12 +36,16 @@ header {
   }
   .lang {
     margin-left: auto;
-    margin-right: 15px;
   }
   .auth-btns {
-    width: 200px;
     span {
       user-select: none;
     }
+  }
+}
+
+@media screen and (max-width: 518px) {
+  header {
+    height: 5rem;
   }
 }
