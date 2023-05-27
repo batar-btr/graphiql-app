@@ -18,9 +18,7 @@ export const GraphiqlCodeEditor = () => {
     fetchSchema().then((s) => s && setSchema(s));
   }, []);
 
-  return !schema ? (
-    <Spinner />
-  ) : (
+  return schema ? (
     <CodeMirror
       className="graphiql-code-editor"
       value={query}
@@ -45,5 +43,7 @@ export const GraphiqlCodeEditor = () => {
         dispatch(setQuery({ value }));
       }}
     />
+  ) : (
+    <Spinner />
   );
 };

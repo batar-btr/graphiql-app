@@ -4,6 +4,7 @@ import variableSlice from './slices/variableSlice';
 import querySlice from './slices/querySlice';
 import responseSlice from './slices/responseSlice';
 import loadingSlice from './slices/loadingSlice';
+import schemaSlice from './slices/schemaSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     query: querySlice,
     response: responseSlice,
     loading: loadingSlice,
+    schema: schemaSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
