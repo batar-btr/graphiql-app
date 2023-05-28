@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+.documentation {
+  &-root {
+    margin-top: 20px;
+    &-header {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      &-title {
+        font-weight: 500;
+        font-size: 1.8125rem;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    &-field {
+      text-decoration: none;
+      color: rgb(64, 129, 250);
+    }
+    &-scalar {
+      text-decoration: none;
+      color: hsl(40, 100%, 46%);
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    &-content {
+      margin-left: 8px;
+      margin-top: 16px;
+    }
+    &-types {
+      align-items: center;
+      display: flex;
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1;
+      svg {
+        height: 16px;
+        margin-right: 8px;
+        width: 16px;
+      }
+    }
+  }
+  &-explorer {
+    &-list {
+      list-style-type: none;
+      padding: 0;
+      margin-left: 8px;
+      margin-top: 16px;
+      &-item {
+        margin-top: 16px;
+      }
+    }
+    &-field {
+      margin-left: 8px;
+      margin-top: 16px;
+      &-name {
+        text-decoration: none;
+        color: rgb(64, 129, 250);
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      &-arguments {
+        color: hsl(347, 100%, 71%);
+        &-single {
+          display: inline;
+        }
+        &-notsingle {
+          margin-left: 8px;
+        }
+      }
+      &-type {
+        text-decoration: none;
+        color: hsl(40, 100%, 46%);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      &-description {
+        margin-top: 15px;
+        &-dangerously {
+          background-color: hsla(0, 0%, 100%, 0.07);
+          color: hsla(0, 0%, 100%, 1);
+          padding: 2px;
+          border-radius: 4px;
+          font-family: 'Fira Code', monospace;
+          font-size: 0.9375rem;
+        }
+      }
+    }
+    &-back {
+      display: flex;
+      &-link {
+        align-items: center;
+        color: hsla(0, 0%, 100%, 0.76);
+        text-decoration: none;
+        display: flex;
+        margin-bottom: 10px;
+        &:hover {
+          text-decoration: underline;
+        }
+        svg {
+          height: 8px;
+          margin-right: 8px;
+          width: 8px;
+        }
+      }
+    }
+  }
+}

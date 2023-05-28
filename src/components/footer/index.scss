@@ -1,0 +1,92 @@
+.footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-top: 1px solid var(--border-gray);
+  &-rsschool {
+    &-svg {
+      svg {
+        &:hover {
+          path {
+            transition: all 0.5s;
+            fill: white;
+            stroke: white;
+          }
+          path:nth-child(5) {
+            fill: none;
+          }
+        }
+      }
+    }
+  }
+  &-creation {
+    h2 {
+      color: #808080;
+      cursor: default;
+      transition: all 0.5s;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  &-github {
+    &-svg {
+      svg {
+        transition: all 0.5s;
+        &:hover {
+          fill: white;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    &-creation {
+      grid-column: span 2;
+    }
+    &-rsschool {
+      grid-row: 2;
+    }
+    &-github {
+      grid-row: 2;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    &-creation {
+      grid-column: 1;
+      grid-row: 1;
+      text-align: center;
+    }
+    &-rsschool {
+      grid-row: 2;
+    }
+    &-github {
+      grid-row: 3;
+    }
+    & h2 {
+      font-size: 20px;
+    }
+    & .footer-rsschool-svg {
+      svg {
+        height: 45px;
+      }
+    }
+    & .footer-github-svg {
+      svg {
+        height: 60px;
+        width: 60px;
+      }
+    }
+  }
+}

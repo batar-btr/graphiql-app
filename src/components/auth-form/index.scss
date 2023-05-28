@@ -1,0 +1,83 @@
+.auth-form {
+  max-width: 320px;
+  margin: 0 auto;
+  border: 1px solid #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: none;
+  div {
+    position: relative;
+    span {
+      color: var(--text-tr);
+      font-size: 18px;
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      pointer-events: none;
+      transition: all 200ms ease-out;
+      background-color: #1f1f1f;
+      padding: 0 5px;
+    }
+  }
+  input[type=text], input[type=password] {
+    display: block;
+    width: 100%;
+    height: 60px;
+    padding-left: 20px;
+    border-radius: 30px;
+    border: 1px solid var(--border-gray);
+    background: transparent;
+    box-sizing: border-box;
+    font-size: 20px;
+    color: var(--text-tr);
+    outline: none;
+    &:focus + span {
+      color: var(--border-gray);
+      top: -14px;
+      left: 35px;
+    }
+    &.active + span {
+      color: var(--border-gray);
+      top: -14px;
+      left: 35px;
+    }
+    &.error {
+      border: 1px solid tomato;
+    }
+    &.error + span {
+      color: tomato;
+    }
+  } 
+  input[type=submit] {
+    height: 60px;
+    border-radius: 30px;
+    outline: none;
+    border: 1px solid var(--border-gray);
+    color: #242424;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    background: var(--gold);
+    filter: brightness(85%);
+    transition: all 300ms ease-out;
+    &:hover {
+      filter: brightness(100%);
+    }
+    &:active {
+      background-color: var(--gold);
+    }
+  }
+  .submit-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    height: 60px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    background-color: tomato;
+    padding: 10px;
+    color: #242424;
+  }
+}

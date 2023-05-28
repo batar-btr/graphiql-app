@@ -1,2 +1,0 @@
-# graphiql-app
-Teamwork repository

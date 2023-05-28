@@ -1,0 +1,51 @@
+header {
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  height: 4rem;
+  border-bottom: 1px solid var(--border-gray);
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 15px;
+  padding: 10px 20px;
+  font-weight: bold;
+  background-color: #1f1f1f;
+  z-index: 1000;
+  nav {
+    display: flex;
+    gap: 20px;
+  }
+  a {
+    text-decoration: none;
+    color: #ffffffde;
+    font-size: 20px;
+    transition: all 300ms ease-out;
+    cursor: pointer;
+    &.active {
+      color: var(--gold);
+    }
+    &:hover {
+      color: #fff;
+      transform: scale(1.05);
+      &.active {
+        color: var(--gold);
+      }
+    }
+  }
+  .lang {
+    margin-left: auto;
+  }
+  .auth-btns {
+    span {
+      user-select: none;
+    }
+  }
+}
+
+@media screen and (max-width: 518px) {
+  header {
+    height: 5rem;
+  }
+}
