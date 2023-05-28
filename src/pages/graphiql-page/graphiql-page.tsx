@@ -37,7 +37,12 @@ const getLayoutState = (): ILayoutState => {
   const item = window.localStorage.getItem('re-flex');
 
   if (item) {
-    return JSON.parse(item);
+    const res: ILayoutState = JSON.parse(item);
+    if (res.appPaneV2.flex + res.appPaneV3.flex < 1) {
+      res.appPaneV2.flex = res.appPaneV2.flex * 1.5;
+      res.appPaneV3.flex = res.appPaneV3.flex * 1.5;
+    }
+    return res;
   }
 
   return {
@@ -64,14 +69,14 @@ const GraphiqlPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const [layoutState, setLayoutState] = useState(getLayoutState());
+  const [sidebarHidden, setSidebarHidden] = useState(true);
+
   useEffect(() => {
     if (!isAuth) {
       navigate('/');
     }
   }, [isAuth, navigate]);
-
-  const [layoutState, setLayoutState] = useState(getLayoutState());
-  const [sidebarHidden, setSidebarHidden] = useState(true);
 
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.query.value);
