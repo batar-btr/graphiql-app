@@ -42,13 +42,13 @@ const getLayoutState = (): ILayoutState => {
 
   return {
     appPaneV1: {
-      flex: 0.333333,
+      flex: 0.3333333,
     },
     appPaneV2: {
-      flex: 0.333333,
+      flex: 0.5,
     },
     appPaneV3: {
-      flex: 0.333333,
+      flex: 0.5,
     },
     appPaneH1: {
       flex: 0.777778,
@@ -88,8 +88,6 @@ const GraphiqlPage = () => {
         flex: flex,
       },
     }));
-
-    window.localStorage.setItem('re-flex', JSON.stringify(layoutState));
   };
 
   const handleSubmit = () => {
@@ -105,7 +103,40 @@ const GraphiqlPage = () => {
     }
   };
 
-  const closeSidebar = () => setSidebarHidden((prev) => !prev);
+  useEffect(() => {
+    window.localStorage.setItem('re-flex', JSON.stringify(layoutState));
+  }, [layoutState]);
+
+  const closeSidebar = () => {
+    if (sidebarHidden) {
+      setLayoutState((prevState) => ({
+        ...prevState,
+        appPaneV1: {
+          flex: getLayoutState().appPaneV1.flex,
+        },
+        appPaneV2: {
+          flex: getLayoutState().appPaneV2.flex / 1.5,
+        },
+        appPaneV3: {
+          flex: getLayoutState().appPaneV3.flex / 1.5,
+        },
+      }));
+    } else {
+      setLayoutState((prevState) => ({
+        ...prevState,
+        appPaneV1: {
+          flex: getLayoutState().appPaneV1.flex,
+        },
+        appPaneV2: {
+          flex: getLayoutState().appPaneV2.flex * 1.5,
+        },
+        appPaneV3: {
+          flex: getLayoutState().appPaneV3.flex * 1.5,
+        },
+      }));
+    }
+    setSidebarHidden((prev) => !prev);
+  };
 
   return (
     <div className="graphiql-page">
